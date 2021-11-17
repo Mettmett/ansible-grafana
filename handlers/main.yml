@@ -1,0 +1,15 @@
+---
+
+- name: start grafana
+  systemd:
+    enabled: true
+    name: "grafana-server.service"
+    masked: false
+    state: started
+
+- name: restart grafana
+  systemd:
+    enabled: true
+    name: "grafana-server.service"
+    masked: false
+    state: restarted

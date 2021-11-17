@@ -1,0 +1,56 @@
+---
+
+- name: (apt) update host apt cache
+  apt:
+    cache_valid_time: 3600
+    update_cache: true
+
+- name: (apt) install needed tools
+  apt:
+    install_recommends: false
+    name: "{{ item }}"
+    state: present
+  loop:
+    - apt-transport-https
+    - gnupg
+    - software-properties-common
+    - wget
+
+- name: (apt) add apt signing key
+  apt_key:
+    url: "https://packages.grafana.com/gpg.key"
+    state: present
+
+- name: (apt) install repository file
+  apt_repository:
+    filename: grafana
+    repo: "deb https://packages.grafana.com/oss/deb stable main"
+    state: present
+
+- name: (apt) new update host apt cache
+  apt:
+    cache_valid_time: 3600
+    update_cache: true
+
+- name: (apt) install grafana-server
+  apt:
+    install_recommends: false
+    name: "grafana"
+    state: present
+
+- name: (sys) create the custom grafana configuration folder
+  file:
+    dest: "/etc/grafana/conf"
+    group: "grafana"
+    mode: 0755
+    owner: "root"
+    state: "directory"
+
+- name: (sys) installing custom grafana configuration file
+  template:
+    dest: "/etc/grafana/conf/custom.ini"
+    group: "grafana"
+    mode: 0644
+    owner: "root"
+    src: "custom.ini.j2"
+  notify: restart grafana

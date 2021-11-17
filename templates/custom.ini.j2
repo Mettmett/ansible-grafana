@@ -1,0 +1,52 @@
+{{ ansible_managed | comment }}
+
+app_mode = production
+
+[server]
+enable_gzip = true
+
+[analytics]
+reporting_enabled = false
+check_for_updates = false
+
+[security]
+disable_gravatar = true
+x_xss_protection = true
+
+[users]
+allow_org_create = false
+auto_assign_org_role = Viewer
+
+[auth.anonymous]
+enabled = false
+
+[auth.github]
+enabled = false
+
+[auth.gitlab]
+enabled = false
+
+[auth.google]
+enabled = false
+
+[auth.grafana_com]
+enabled = false
+
+[auth.azuread]
+enabled = false
+
+[auth.okta]
+enabled = false
+
+[auth.generic_oauth]
+enabled = false
+
+[auth.proxy]
+enabled = false
+
+[auth.ldap]
+enabled = false
+
+[log]
+log_rotate = true
+daily_rotate = true
